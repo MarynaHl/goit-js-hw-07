@@ -24,55 +24,54 @@ import { galleryItems } from './gallery-items.js';
 const imageContainer = document.querySelector('.gallery');
 
 const imagesMarkup = galleryItems
-  .map(({ preview, original, description }) => {
+    .map(({ preview, original, description }) => {
     return `
     <div class="gallery__item">
-  <a class="gallery__link" href="${original}">
+    <a class="gallery__link" href="${original}">
     <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
+    class="gallery__image"
+    src="${preview}"
+    data-source="${original}"
+    alt="${description}"
     />
-  </a>
+    </a>
 </div>`;
-  })
-  .join('');
+    })
+    .join('');
 
 imageContainer.insertAdjacentHTML('beforeend', imagesMarkup);
 imageContainer.addEventListener('click', onImageContainerClick);
 
 function onImageContainerClick(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  
-  if (e.target.nodeName !== 'IMG') {
+    if (e.target.nodeName !== 'IMG') {
     return;
-  }
+    }
 
-  let instance = '';
-  const getUrlbyDataSet = e.target.dataset.source;
+    let instance = '';
+    const getUrlbyDataSet = e.target.dataset.source;
 
-  const options = {
+    const options = {
     once: true,
     // open Modal
     onShow: (instance) => {
-      window.addEventListener('keydown', eventHandler);
+    window.addEventListener('keydown', eventHandler);
     },
     // cloze Modal
     onClose: (instance) => {
-      window.removeEventListener('keydown', eventHandler);
+    window.removeEventListener('keydown', eventHandler);
     },
-  };
-  function eventHandler(e) {
+    };
+    function eventHandler(e) {
     if (e.key === 'Escape') {
-      instance.close();
-      return;
+    instance.close();
+    return;
     }
-  }
-  instance = basicLightbox.create(
+    }
+    instance = basicLightbox.create(
     `<img src="${getUrlbyDataSet}" width="800" height="600">`,
     options
-  );
-  instance.show();
+    );
+    instance.show();
 }
