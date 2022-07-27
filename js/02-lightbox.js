@@ -3,21 +3,29 @@ import { galleryItems } from './gallery-items.js';
 
 console.log(galleryItems);
 
-const imageContainer = document.querySelector(".gallery");
-const imagesMarkup = galleryItems
-.map(({ preview, original, description }) => {
-    return `<li><a class="gallery__item" href="${original}">
-<img class="gallery__image" src="${preview}" alt="${description}" />
-</a></li>`;
-})
-.join("");
+const galleryList = document.querySelector(".gallery");
+const markupGallery = createMarkupGallery(galleryItems);
 
-imageContainer.insertAdjacentHTML("beforeend", imagesMarkup);
-console.log(imageContainer);
-const lightbox = new SimpleLightbox(".gallery a", {
-captionsData: "alt",
-captionDelay: 250,
+galleryList.insertAdjacentHTML("beforeend", markupGallery);
+
+// Create dynamic layout
+function createMarkupGallery(array) {
+return array
+    .map(({ preview, original, description }) => {
+    return `<li><a class="gallery__item" href="${original}">
+        <img class="gallery__image" src="${preview}" alt="${description}" />
+        </a></li>`;
+    })
+    .join("");
+}
+
+// Creating and configuring the simplelightbox library
+let gallery = new SimpleLightbox(".gallery a", {
 enableKeyboard: true,
-animationSlide: true,
-animationSpeed: 250,
+showCounter: false,
+captions: true,
+captionSelector: "img",
+captionsData: "alt",
+captionPosition: "bottom",
+captionDelay: 250,
 });
